@@ -8,6 +8,9 @@ describe "Authentification" do
 
 		it { should have_in_header('Sign in') }
 		it { should have_in_title('Sign in') }
+
+		it { should_not have_in_header('Profile') }
+		it { should_not have_in_header('Settings') }
 	end
 
 	describe "signin" do
@@ -63,6 +66,17 @@ describe "Authentification" do
 					it "should render the desired protected page" do
 						page.should have_in_title('Edit user')
 					end
+
+					describe "when signing in again" do
+            before do
+              delete signout_path
+              sign_in user
+            end
+
+            it "should render the default (profile) page" do
+              page.should have_selector('title', text: user.name) 
+            end
+          end
 				end
 			end
 
