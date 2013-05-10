@@ -39,6 +39,8 @@ Spork.prefork do
     # automatically. This will be the default behavior in future versions of
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
+
+    config.include Rails.application.routes.url_helpers
   end
 end
 
@@ -75,8 +77,6 @@ end
 #
 # These instructions should self-destruct in 10 seconds.  If they don't, feel
 # free to delete them.
-
-
 
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -116,4 +116,6 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.include Rails.application.routes.url_helpers
 end

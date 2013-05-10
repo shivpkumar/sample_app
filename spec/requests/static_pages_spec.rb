@@ -25,10 +25,7 @@ describe "Static pages" do
         visit root_path
       end
 
-      after do
-        user.microposts.delete_all
-        other_user.microposts.delete_all
-      end
+      after { user.microposts.delete_all }
 
       it "should render the user's feed" do
         user.feed.paginate(page: 1).each do |item|
@@ -55,6 +52,16 @@ describe "Static pages" do
         let(:mp) { FactoryGirl.create(:micropost, user: other_user) }
         
         it { should_not have_link('delete', href: micropost_path(mp)) }
+      end
+
+      describe "follower/following counts" do
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
       end
     end
   end
